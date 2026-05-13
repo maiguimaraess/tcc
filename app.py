@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-TELEGRAM_TOKEN    = os.environ.get("TELEGRAM_TOKEN")
+TELEGRAM_TOKEN   = os.environ.get("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_IDS = os.environ.get("TELEGRAM_CHAT_IDS", "").split(",")
 
 @app.route("/enviar", methods=["GET"])
@@ -21,6 +21,13 @@ def enviar():
             "parse_mode": "HTML"
         })
     return "ok", 200
+
+# ↓ ADICIONE AQUI
+@app.route("/dados", methods=["GET"])
+def dados():
+    temp = request.args.get("temp", "N/A")
+    ph   = request.args.get("ph",   "N/A")
+    return "temp={} ph={}".format(temp, ph), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
