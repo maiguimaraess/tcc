@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-TELEGRAM_TOKEN   = os.environ.get("TELEGRAM_TOKEN")
+TELEGRAM_TOKEN    = os.environ.get("TELEGRAM_TOKEN")
 TELEGRAM_CHAT_IDS = os.environ.get("TELEGRAM_CHAT_IDS", "").split(",")
 
 @app.route("/enviar", methods=["GET"])
@@ -12,7 +12,6 @@ def enviar():
     texto = request.args.get("texto", "")
     if not texto:
         return "sem texto", 400
-
     url = "https://api.telegram.org/bot{}/sendMessage".format(TELEGRAM_TOKEN)
     for chat_id in TELEGRAM_CHAT_IDS:
         requests.post(url, json={
@@ -22,7 +21,6 @@ def enviar():
         })
     return "ok", 200
 
-# ↓ ADICIONE AQUI
 @app.route("/dados", methods=["GET"])
 def dados():
     temp = request.args.get("temp", "N/A")
